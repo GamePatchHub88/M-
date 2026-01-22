@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-TECH - معرض المشاريع</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f0f1e;
+            --secondary: #1a1a2e;
+            --accent: #00ff88;
+            --accent-2: #ff006e;
+            --accent-3: #00d9ff;
+            --accent-4: #ffd60a;
+            --text: #e0e0e0;
+            --text-dark: #1a1a2e;
+            --glow: #00ff88;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%);
+            color: var(--text);
+            overflow-x: hidden;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 110, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 30, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--accent);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+            z-index: 1000;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            letter-spacing: 3px;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .theme-toggle, .scroll-top {
+            background: linear-gradient(135deg, var(--accent), var(--accent-3));
+            color: var(--primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .theme-toggle:hover, .scroll-top:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+        }
+
+        .scroll-top {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-top.show {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 30px 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 60px rgba(0, 255, 136, 0.2);
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--accent-3);
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        /* Profile Card */
+        .profile-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 80px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .profile-card {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.8), rgba(22, 33, 62, 0.8));
+            border: 2px solid var(--accent);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.1), inset 0 0 20px rgba(0, 255, 136, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.3), inset 0 0 20px rgba(0, 255, 136, 0.1);
+            border-color: var(--accent-3);
+        }
+
+        .profile-card:hover::before {
+            left: 100%;
+        }
+
+        .profile-card h3 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .profile-card p {
+            color: var(--text);
+            font-size: 16px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-3));
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        }
+
+        .social-link:hover {
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
+        }
+
+        /* Projects Section */
+        .projects-title {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 60px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9));
+            border: 2px solid var(--accent);
+            border-radius: 15px;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.3), 0 0 100px rgba(255, 0, 110, 0.1);
+            border-color: var(--accent-3);
+        }
+
+        .project-header {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 217, 255, 0.1));
+            padding: 20px;
+            border-bottom: 2px solid var(--accent);
+            position: relative;
+        }
+
+        .project-header h2 {
+            color: var(--accent);
+            font-size: 22px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-4), var(--accent-2));
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 217, 255, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .project-body {
+            padding: 25px;
+        }
+
+        .project-body p {
+            color: var(--text);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 12px 20px;
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--accent);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, var(--accent), var(--accent-3));
+            color: var(--primary);
+            border: none;
+        }
+
+        .btn-download:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
+        }
+
+        .btn-web {
+            background: linear-gradient(135deg, var(--accent-2), var(--accent-4));
+            color: var(--primary);
+            border: none;
+        }
+
+        .btn-web:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 0, 110, 0.5);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .alert-info {
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid var(--accent-3);
+            color: var(--accent-3);
+        }
+
+        .alert-warning {
+            background: rgba(255, 214, 10, 0.1);
+            border: 1px solid var(--accent-4);
+            color: var(--accent-4);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 2px solid var(--accent);
+            background: linear-gradient(135deg, rgba(15, 15, 30, 0.9), rgba(22, 33, 62, 0.9));
+            color: var(--text);
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            color: var(--accent);
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .projects-title {
+                font-size: 32px;
+            }
+
+            .navbar-container {
+                padding: 12px 15px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="navbar-container">
+            <div class="logo">M-TECH</div>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle">🌙 ليل</button>
+                <button class="scroll-top" id="scrollTop">⬆ أعلى</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>مرحباً بك في M-TECH</h1>
+            <p>معرض مشاريع احترافية وتطبيقات جبارة 🚀</p>
+        </section>
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <div class="profile-card">
+                <h3>👨‍💻 المطور</h3>
+                <p>محمد أحمد حلمي</p>
+            </div>
+            <div class="profile-card">
+                <h3>📍 الموقع</h3>
+                <p>الزقازيق - الشرقية - مصر</p>
+            </div>
+            <div class="profile-card">
+                <h3>🛠️ المهارات</h3>
+                <p>Python | HTML | CSS | JavaScript | TypeScript</p>
+            </div>
+            <div class="profile-card">
+                <h3>🤝 تابعنا</h3>
+                <div class="social-links">
+                    <a href="https://www.youtube.com/@M-Tech11_dev" class="social-link" target="_blank">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://www.facebook.com/mohamed.ahmed.helmy.aboura" class="social-link" target="_blank">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <h2 class="projects-title">🎮 معرض المشاريع</h2>
+
+        <div class="projects-grid">
+            <!-- Project 1 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h2>نظام تسجيل الطلاب</h2>
+                    <span class="badge">📱 تطبيق الهاتف</span>
+                </div>
+                <div class="project-image">
+                    <i class="fas fa-mobile-alt" style="font-size: 80px; color: var(--accent); opacity: 0.3;"></i>
+                </div>
+                <div class="project-body">
+                    <p>تطبيق ويب محسّن للهواتف الذكية لتسجيل الطلاب بسهولة وسرعة</p>
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i> متوافق بالكامل مع الهواتف الذكية
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-mobile-alt"></i> لا يحتاج تثبيت - استخدم مباشرة من المتصفح
+                    </div>
+                    <div class="project-links">
+                        <a href="https://www.mediafire.com/file/p34fnnx2s9ef82m/%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC+%D8%AA%D8%B3%D8%AC%D9%8A%D9%84+%D8%B7%D9%84%D8%A7%D8%A8+%D9%85%D8%AD%D8%AF%D8%AB+.html/file" class="btn btn-web" target="_blank">
+                            <i class="fas fa-download"></i> تحميل الآن
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h2>برنامج تسجيل الطلاب Desktop</h2>
+                </div>
+                <div class="project-image">
+                    <i class="fas fa-laptop" style="font-size: 80px; color: var(--accent-3); opacity: 0.3;"></i>
+                </div>
+                <div class="project-body">
+                    <p>تطبيق ديسكتوب احترافي لتسجيل الطلاب يعمل على نظام Windows</p>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> يدعم نسخ 32-بت و 64-بت
+                    </div>
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i> ضع ملف "مهم جداً" في قرص E
+                    </div>
+                    <div class="project-links">
+                        <a href="https://www.mediafire.com/file/rgauicsmes63tqd/" class="btn btn-download" target="_blank">
+                            <i class="fas fa-download"></i> تحميل
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h2>مدير كلمات المرور الذكي</h2>
+                </div>
+                <div class="project-image">
+                    <i class="fas fa-lock" style="font-size: 80px; color: var(--accent-2); opacity: 0.3;"></i>
+                </div>
+                <div class="project-body">
+                    <p>برنامج آمن وذكي لإدارة وحفظ كلمات المرور بطريقة محمية</p>
+                    <div class="alert alert-success">
+                        <i class="fas fa-shield-alt"></i> آمن وموثوق
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-check-circle"></i> متوافق مع جميع أنظمة Windows
+                    </div>
+                    <div class="project-links">
+                        <a href="https://www.mediafire.com/file/77skq2o5w9q65pv/" class="btn btn-download" target="_blank">
+                            <i class="fas fa-download"></i> تحميل
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h2>برنامج تسجيل كتب المكتبة</h2>
+                </div>
+                <div class="project-image">
+                    <i class="fas fa-book" style="font-size: 80px; color: var(--accent-4); opacity: 0.3;"></i>
+                </div>
+                <div class="project-body">
+                    <p>نظام متقدم لتسجيل وإدارة الكتب والبحث فيها بسهولة</p>
+                    <div class="alert alert-info">
+                        <i class="fas fa-search"></i> خاصية بحث متقدمة
+                    </div>
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i> نسخة 64-بت محسّنة
+                    </div>
+                    <div class="project-links">
+                        <a href="https://www.mediafire.com/file/rn9qs17rscm1urv/" class="btn btn-download" target="_blank">
+                            <i class="fas fa-download"></i> تحميل
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><span class="footer-text">© 2026 M-TECH</span></p>
+        <p>تم التصميم بكل حب لدعم المحتوى التقني العربي 💚</p>
+        <p style="margin-top: 15px; font-size: 14px; color: var(--accent-3);">صُنع بـ HTML | CSS | JavaScript | TypeScript ✨</p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const root = document.documentElement;
+        let isDarkMode = true;
+
+        themeToggle.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            
+            if (!isDarkMode) {
+                root.style.setProperty('--primary', '#ffffff');
+                root.style.setProperty('--secondary', '#f5f5f5');
+                root.style.setProperty('--text', '#1a1a1a');
+                root.style.setProperty('--text-dark', '#ffffff');
+                document.body.style.background = 'linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #e0e0e0 100%)';
+                themeToggle.textContent = '☀️ نهار';
+            } else {
+                root.style.setProperty('--primary', '#0f0f1e');
+                root.style.setProperty('--secondary', '#1a1a2e');
+                root.style.setProperty('--text', '#e0e0e0');
+                root.style.setProperty('--text-dark', '#1a1a2e');
+                document.body.style.background = 'linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%)';
+                themeToggle.textContent = '🌙 ليل';
+            }
+        });
+
+        // Scroll to Top
+        const scrollTop = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTop.classList.add('show');
+            } else {
+                scrollTop.classList.remove('show');
+            }
+        });
+
+        scrollTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.project-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
